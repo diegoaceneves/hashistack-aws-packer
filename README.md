@@ -1,13 +1,15 @@
-![Validate Packer Template](https://github.com/REDtalks/hashistack-aws-packer/workflows/Validate%20Packer%20Template/badge.svg?branch=validate)
+![Validate Packer Template](https://github.com/diegoaceneves/hashistack-aws-packer/workflows/Validate%20Packer%20Template/badge.svg?branch=validate)
 
-![Build & Deploy Packer Template](https://github.com/REDtalks/hashistack-aws-packer/workflows/Build%20&%20Deploy%20Packer%20Template/badge.svg)
+![Build & Deploy Packer Template](https://github.com/diegoaceneves/hashistack-aws-packer/workflows/Build%20&%20Deploy%20Packer%20Template/badge.svg)
 
 # hashistack-aws-packer
-Repo for maintaining AWS AMI's via GitHub Actions 
+
+Repo for maintaining AWS AMI's via GitHub Actions
 
 ## Workflow
 
 **VALIDATE**
+
 1. A `git push` to the 'validate' branch triggers a Github Action
 2. The GitHub Action pulls the offical HashiCorp Packer docker image which is used to 'validate' the template.
 
@@ -17,16 +19,15 @@ Repo for maintaining AWS AMI's via GitHub Actions
 2. The GitHub Action pulls the offical HashiCorp Packer docker image which is used to 'build' the template.
 3. Using the AWS KEY and AWS SECRET passed in by the GitHub Action, Packer deploys the AMI's to the specified AWS regions.
 
-
 # NOTES
 
 ## Official HashiCorp Packer Docker Container
 
-Located: https://hub.docker.com/r/hashicorp/packer/
+Located: <https://hub.docker.com/r/hashicorp/packer/>
 
 The GitHub Action is essentially running the following command, and passing in the template name:
 
-```
+```bash
 docker run -it hashicorp/packer:light [validate|build] <template_name.json>
 ```
 
@@ -48,8 +49,7 @@ Or, for something human readable:
 
 will become `mybuild-2017-10-18t02-06-30z`
 
-NOTE: `clean_resource_name` will ensure that *special characters* which are incompatible with various cloud platforms are NOT used. Learn more about the Packer Template Engine here: https://www.packer.io/docs/templates/engine/
-
+NOTE: `clean_resource_name` will ensure that *special characters* which are incompatible with various cloud platforms are NOT used. Learn more about the Packer Template Engine here: <https://www.packer.io/docs/templates/engine/>
 
 If you are creating unique AMi names, e.g. `` then you won't experience any name conflicts and previous AMI's will be untouches each time you deploy. However, if you *want* to overwrite existing AMI's there are two steps you must follow:
 
@@ -71,7 +71,6 @@ Add the following to your AWS 'Builder'
   "force_delete_snapshot": "true",
 ```
 
-
 ## AWS Regions
 
 Below you will see both `"region": ""` and `"ami_regions": ""`
@@ -82,7 +81,7 @@ Below you will see both `"region": ""` and `"ami_regions": ""`
 Below is an example of specifying multiple regions using Packer 'array values' with `variable.destination_regions` at the top, and inputing that into the builder with ``"ami_regions": "{{user `destination_regions`}}",``
 
 More on Packer 'user-variables' can be found here:
-https://www.packer.io/docs/templates/user-variables/
+<https://www.packer.io/docs/templates/user-variables/>
 
 ```json
 {
